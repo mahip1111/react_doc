@@ -1,0 +1,1046 @@
+# React Lesson 2 --- JSX
+
+## Super-easy notes with real-life examples (Beginner + Interview Prep)
+
+> **Goal:** Understand JSX from zero, connect every concept to real-life
+> situations, and prepare to explain it in a React interview.
+>
+> **Study method:** Read the real-life example → understand the
+> explanation → run the code → try the revision questions. Don't
+> memorize blindly.
+
+------------------------------------------------------------------------
+
+# Table of Contents
+
+| # | Topic | What you'll learn |
+|---|---|---|
+| 1 | [What is JSX?](#1-what-is-jsx) | Understand JSX using a college website example |
+| 2 | [Why do we use JSX?](#2-why-do-we-use-jsx) | Compare JSX with writing UI using JavaScript functions |
+| 3 | [Is JSX the same as HTML?](#3-is-jsx-the-same-as-html) | Understand `className`, `onClick`, and other differences |
+| 4 | [What happens to JSX behind the scenes?](#4-what-happens-to-jsx-behind-the-scenes) | Learn how JSX becomes JavaScript |
+| 5 | [How do we write JavaScript inside JSX?](#5-how-do-we-write-javascript-inside-jsx) | Use `{}` to display variables and expressions |
+| 6 | [Expressions vs statements: Can we write `if` directly inside JSX?](#6-expressions-vs-statements-can-we-write-if-directly-inside-jsx) | Understand why an `if` statement cannot go directly inside JSX |
+| 7 | [Why does JSX need one parent element?](#7-why-does-jsx-need-one-parent-element) | Learn why JSX needs one top-level element |
+| 8 | [What is a Fragment?](#8-what-is-a-fragment) | Group elements without an extra DOM element |
+| 9 | [JSX attributes](#9-jsx-attributes) | Learn `className`, `htmlFor`, `tabIndex`, and more |
+| 10 | [Event handling in JSX](#10-event-handling-in-jsx) | Understand `onClick` and function references |
+| 11 | [Using JavaScript variables inside a component](#11-using-javascript-variables-inside-a-component) | Use JavaScript data inside UI |
+| 12 | [Is JSX mandatory in React?](#12-is-jsx-mandatory-in-react) | Learn how React works without JSX |
+| 13 | [Interview questions and answers](#13-interview-questions-and-answers) | Prepare clear interview answers |
+| 14 | [Common beginner mistakes](#14-common-beginner-mistakes) | Avoid beginner errors |
+| 15 | [Quick revision --- explain JSX to yourself](#15-quick-revision-----explain-jsx-to-yourself) | Recall the important concepts |
+| 16 | [Mini interview practice](#16-mini-interview-practice) | Test your understanding |
+| 17 | [One complete example --- use everything together](#17-one-complete-example-----use-everything-together) | Combine all the concepts in one profile card |
+| 18 | [Final interview-ready answer](#18-final-interview-ready-answer) | Explain JSX confidently |
+| 19 | [Revision Cheat Sheet](#19-revision-cheat-sheet) | Revise the whole lesson at a glance |
+| 20 | [Next lesson --- React Components](#20-next-lesson-----react-components) | Preview React Components |
+
+------------------------------------------------------------------------
+
+# 1. What is JSX?
+
+Imagine you are building a college website. On its home page, you want
+to show:
+
+-   A heading: "Welcome to IIIT"
+-   A paragraph: "This is our college website"
+-   A button: "Explore"
+
+A simple UI could look like this:
+
+``` jsx
+function App() {
+  return (
+    <div>
+      <h1>Welcome to IIIT</h1>
+      <p>This is our college website</p>
+      <button>Explore</button>
+    </div>
+  );
+}
+```
+
+It looks a lot like HTML, right?
+
+But because we are writing this HTML-like structure inside JavaScript,
+React uses a special syntax called **JSX**.
+
+**JSX is a JavaScript syntax extension that lets us describe UI using an
+HTML-like style.**
+
+In simple words:
+
+-   JSX lets us write the UI in a way that is easy for humans to read.
+-   We write it inside JavaScript files.
+-   We commonly use it inside React components.
+
+Example:
+
+``` jsx
+const element = <h1>Hello World</h1>;
+```
+
+`<h1>Hello World</h1>` is JSX.
+
+**Real-life connection --- Restaurant menu:** You could describe your
+food order in a long, complicated sentence, or simply point to the item
+on a menu. Both communicate what you want, but the menu is easier to
+understand. JSX is like that menu: it gives us an easy way to describe
+the UI.
+
+**Remember:** JSX is a convenient way to write what we want our UI to
+look like.
+
+------------------------------------------------------------------------
+
+# 2. Why do we use JSX?
+
+Compare two ways of describing the same heading.
+
+### Without JSX
+
+``` js
+const element = React.createElement(
+  "h1",
+  null,
+  "Hello World"
+);
+```
+
+### With JSX
+
+``` jsx
+const element = <h1>Hello World</h1>;
+```
+
+Both describe a React element representing a heading. But JSX is easier
+for humans to read.
+
+**Real-life connection --- Shopping list:** A simple list containing
+Milk, Bread, and Eggs is easier to read than a long sentence describing
+each item. JSX makes UI descriptions similarly easy to scan.
+
+### Why JSX is useful
+
+1.  **Readable:** The code looks similar to the UI.
+2.  **Easy to understand:** You can see which elements are nested inside
+    other elements.
+3.  **JavaScript-friendly:** You can insert JavaScript expressions using
+    `{}`.
+4.  **Maintainable:** It is generally easier to work with as a UI grows.
+
+**Interview point:** JSX improves the readability of React code. It is a
+convenient syntax for describing UI; it is not what makes React work by
+itself.
+
+------------------------------------------------------------------------
+
+# 3. Is JSX the same as HTML?
+
+**No. JSX is not HTML. It only looks similar to HTML.**
+
+HTML:
+
+``` html
+<div class="box">Hello</div>
+```
+
+JSX:
+
+``` jsx
+<div className="box">Hello</div>
+```
+
+Notice:
+
+``` text
+HTML → class
+JSX  → className
+```
+
+**Real-life connection:** Two languages can have similar-looking words
+but different grammar rules. HTML and JSX look similar, but they follow
+different rules.
+
+### Common differences
+
+  HTML         JSX
+  ------------ -------------
+  `class`      `className`
+  `for`        `htmlFor`
+  `onclick`    `onClick`
+  `onchange`   `onChange`
+  `tabindex`   `tabIndex`
+
+JSX is written inside JavaScript and is transformed into JavaScript by
+the project's tooling.
+
+**Remember:** JSX looks like HTML, but it is a JavaScript syntax
+extension.
+
+------------------------------------------------------------------------
+
+# 4. What happens to JSX behind the scenes?
+
+Suppose you write:
+
+``` jsx
+const element = <h1>Hello</h1>;
+```
+
+The browser does not directly understand JSX syntax. Before the
+application runs in the browser, the project's build tools transform JSX
+into JavaScript.
+
+Conceptually, the older, familiar transformation looks something like:
+
+``` js
+const element = React.createElement(
+  "h1",
+  null,
+  "Hello"
+);
+```
+
+You don't need to memorize every argument yet:
+
+-   `"h1"` tells React which kind of element we want.
+-   `null` means no extra props are being passed here.
+-   `"Hello"` is the content inside the heading.
+
+Modern React projects commonly use the newer JSX transform. The exact
+generated code may look different, and you do not always need to import
+React just to write JSX.
+
+**Real-life connection --- Translation:** You write a message in one
+language. A translator converts it into a language the receiver
+understands. Similarly, the build tool transforms JSX into JavaScript
+that the browser can execute.
+
+``` text
+You write JSX
+     ↓
+Build tool transforms JSX
+     ↓
+JavaScript
+     ↓
+Browser executes JavaScript
+     ↓
+React renders the UI
+```
+
+**Important:** JSX is not directly executed by the browser. It is
+transformed first.
+
+------------------------------------------------------------------------
+
+# 5. How do we write JavaScript inside JSX?
+
+Suppose we have a variable:
+
+``` jsx
+const name = "Manav";
+```
+
+We want to show this name on the screen.
+
+``` jsx
+function App() {
+  const name = "Manav";
+
+  return <h1>Hello {name}</h1>;
+}
+```
+
+Output:
+
+``` text
+Hello Manav
+```
+
+What are `{}` doing?
+
+They tell JSX: **"I want to use a JavaScript expression here."**
+
+**Real-life connection --- Filling a form:** Imagine a form that says
+`My name is ______`. You fill the blank with your name. In JSX, `{name}`
+is like that blank.
+
+### More examples
+
+**Calculation:**
+
+``` jsx
+<h1>{2 + 2}</h1>
+```
+
+Output: `4`
+
+**Variable:**
+
+``` jsx
+const age = 21;
+return <p>My age is {age}</p>;
+```
+
+Output: `My age is 21`
+
+**Function result:**
+
+``` jsx
+const name = "manav";
+return <h1>{name.toUpperCase()}</h1>;
+```
+
+Output: `MANAV`
+
+**Object property:**
+
+``` jsx
+const user = { name: "Manav", age: 21 };
+return <h1>{user.name}</h1>;
+```
+
+Output: `Manav`
+
+**Ternary condition:**
+
+``` jsx
+const isLoggedIn = true;
+
+return (
+  <h1>{isLoggedIn ? "Welcome back!" : "Please log in"}</h1>
+);
+```
+
+Output: `Welcome back!`
+
+------------------------------------------------------------------------
+
+# 6. Expressions vs statements: Can we write `if` directly inside JSX?
+
+Consider:
+
+``` jsx
+<h1>
+  {if (age > 18) {
+    "Adult"
+  }}
+</h1>
+```
+
+This is invalid.
+
+Why? JSX braces expect a JavaScript **expression**. An expression
+produces a value. An `if` statement is a statement that controls which
+instructions run.
+
+**Real-life connection:** An expression is like directly giving an
+answer to "What message should I display?" An `if` statement is like
+giving a set of instructions: "If this is true, do this; otherwise, do
+that."
+
+### Solution 1: Use a ternary operator
+
+``` jsx
+function App() {
+  const age = 21;
+
+  return (
+    <h1>{age > 18 ? "Adult" : "Minor"}</h1>
+  );
+}
+```
+
+### Solution 2: Use `if` before returning JSX
+
+``` jsx
+function App() {
+  const age = 21;
+  let message;
+
+  if (age > 18) {
+    message = "Adult";
+  } else {
+    message = "Minor";
+  }
+
+  return <h1>{message}</h1>;
+}
+```
+
+**Remember:** - Use `{}` for JavaScript expressions inside JSX. - Use a
+ternary for a simple condition inside JSX. - Normal `if/else` logic can
+be written before `return`.
+
+------------------------------------------------------------------------
+
+# 7. Why does JSX need one parent element?
+
+This code causes an error:
+
+``` jsx
+function App() {
+  return (
+    <h1>Hello</h1>
+    <p>Welcome to my website</p>
+  );
+}
+```
+
+A component must return one top-level JSX element.
+
+**Real-life connection --- Parcel box:** Imagine sending two books
+through a delivery service. You put both books inside one parcel.
+Similarly, JSX elements need one common parent.
+
+### Solution 1: Use a `div`
+
+``` jsx
+function App() {
+  return (
+    <div>
+      <h1>Hello</h1>
+      <p>Welcome to my website</p>
+    </div>
+  );
+}
+```
+
+### Solution 2: Use a Fragment
+
+``` jsx
+function App() {
+  return (
+    <>
+      <h1>Hello</h1>
+      <p>Welcome to my website</p>
+    </>
+  );
+}
+```
+
+`<>...</>` is a **Fragment**.
+
+# 8. What is a Fragment?
+
+A Fragment groups multiple JSX elements without adding an extra DOM
+element.
+
+**Real-life connection --- Invisible box:** Imagine an invisible box
+that keeps two objects together. The box groups the objects but does not
+add another visible object. A Fragment similarly groups JSX elements
+without creating an extra `div` in the DOM.
+
+``` text
+Fragment
+  ├── h1
+  └── p
+```
+
+We will study Fragments in more detail later.
+
+------------------------------------------------------------------------
+
+# 9. JSX attributes
+
+HTML attributes:
+
+``` html
+<input placeholder="Enter your name">
+```
+
+JSX:
+
+``` jsx
+<input placeholder="Enter your name" />
+```
+
+Another example:
+
+``` html
+<div class="card">Hello</div>
+```
+
+JSX:
+
+``` jsx
+<div className="card">Hello</div>
+```
+
+JSX uses JavaScript-style DOM property naming conventions.
+
+### Common attributes
+
+  HTML spelling    JSX spelling
+  ---------------- ----------------
+  `class`          `className`
+  `for`            `htmlFor`
+  `tabindex`       `tabIndex`
+  `onclick`        `onClick`
+  `onchange`       `onChange`
+  `onmouseenter`   `onMouseEnter`
+
+### Quotes or curly braces?
+
+For a string:
+
+``` jsx
+<input placeholder="Enter your name" />
+```
+
+For a JavaScript value:
+
+``` jsx
+<input tabIndex={1} />
+```
+
+For a variable:
+
+``` jsx
+const buttonText = "Submit";
+
+<button>{buttonText}</button>
+```
+
+**Easy rule:** Text values can go inside quotes. JavaScript expressions
+go inside curly braces.
+
+------------------------------------------------------------------------
+
+# 10. Event handling in JSX
+
+Suppose a button should print a message when clicked.
+
+First, create a function:
+
+``` jsx
+function handleClick() {
+  console.log("Button clicked!");
+}
+```
+
+Connect it to the button:
+
+``` jsx
+<button onClick={handleClick}>
+  Click me
+</button>
+```
+
+When the user clicks the button, React calls `handleClick`.
+
+**Real-life connection --- Doorbell:** - Doorbell button = UI button. -
+Pressing the button = click event. - Bell ringing = function action.
+
+You don't want the bell to ring when you install the doorbell. You want
+it to ring when someone presses it. Similarly, the click function should
+run when the user clicks.
+
+### `onClick` versus `onclick`
+
+In JSX, React event names use camelCase:
+
+``` jsx
+onClick
+onChange
+onMouseEnter
+```
+
+### `handleClick` versus `handleClick()`
+
+Correct for a normal click handler:
+
+``` jsx
+<button onClick={handleClick}>Click me</button>
+```
+
+This passes the function to React. React can call it when the click
+happens.
+
+Usually incorrect for a normal click handler:
+
+``` jsx
+<button onClick={handleClick()}>Click me</button>
+```
+
+This calls the function immediately during rendering. React receives its
+return value instead of the function itself.
+
+**Real-life connection --- Giving someone a phone number:** Giving your
+friend a phone number so they can call later is like passing
+`handleClick`. Calling the person immediately and giving your friend the
+result is like calling `handleClick()`.
+
+### What if we want to pass an argument?
+
+``` jsx
+function handleClick(name) {
+  console.log("Hello " + name);
+}
+
+<button onClick={() => handleClick("Manav")}>
+  Click me
+</button>
+```
+
+The arrow function is a small wrapper. React calls it on click, and it
+then calls `handleClick("Manav")`.
+
+  ----------------------------------------------------------------------------
+  Code                                     Meaning
+  ---------------------------------------- -----------------------------------
+  `onClick={handleClick}`                  Pass the function for later
+
+  `onClick={handleClick()}`                Call the function immediately
+
+  `onClick={() => handleClick("Manav")}`   Pass a function that calls it later
+                                           with an argument
+  ----------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 11. Using JavaScript variables inside a component
+
+``` jsx
+function App() {
+  const name = "Manav";
+  const age = 21;
+  const college = "IIIT Bhubaneswar";
+
+  return (
+    <div>
+      <h1>Hello {name}</h1>
+      <p>Age: {age}</p>
+      <p>College: {college}</p>
+    </div>
+  );
+}
+```
+
+What happens?
+
+1.  The component function runs.
+2.  JavaScript variables are created.
+3.  The `return` gives back JSX.
+4.  JSX uses the variables through `{}`.
+5.  React renders the resulting UI.
+
+**Real-life connection --- Filling a certificate:** A certificate
+template has blank spaces for name, age, and college. You fill those
+spaces with stored information. JSX works similarly.
+
+------------------------------------------------------------------------
+
+# 12. Is JSX mandatory in React?
+
+**No. JSX is not mandatory.**
+
+We can create React elements without JSX:
+
+``` js
+const element = React.createElement(
+  "h1",
+  null,
+  "Hello World"
+);
+```
+
+Most React projects use JSX because it is easier to read and maintain.
+
+**Interview answer:** "JSX is optional in React. We can create elements
+using APIs such as `React.createElement`, but JSX provides a more
+readable way to describe UI, so it is commonly used."
+
+------------------------------------------------------------------------
+
+# 13. Interview questions and answers
+
+Try to understand the answer instead of memorizing it word by word.
+
+### Q1. What is JSX?
+
+JSX is a JavaScript syntax extension that allows us to write UI using an
+HTML-like syntax inside JavaScript. It makes React code easier to read.
+
+### Q2. Is JSX HTML?
+
+No. JSX looks like HTML, but it is a JavaScript syntax extension. It is
+transformed into JavaScript by the project's tooling.
+
+### Q3. Is JSX mandatory in React?
+
+No. We can create React elements without JSX using APIs such as
+`React.createElement`. JSX is generally preferred because it makes UI
+code easier to read.
+
+### Q4. Why do we use JSX?
+
+JSX makes UI code more readable, lets us describe nested UI elements
+naturally, and allows JavaScript expressions using curly braces.
+
+### Q5. Can we put JavaScript inside JSX?
+
+Yes. We can put JavaScript expressions inside curly braces. For example:
+
+``` jsx
+<h1>{2 + 2}</h1>
+```
+
+### Q6. Why do we use curly braces `{}` in JSX?
+
+Curly braces allow us to insert and evaluate JavaScript expressions
+inside JSX.
+
+### Q7. Why do we use `className` instead of `class`?
+
+JSX uses JavaScript-style DOM property names. The property for an
+element's CSS class is `className`.
+
+### Q8. Why do we write `onClick={handleClick}` instead of `onClick={handleClick()}`?
+
+`onClick={handleClick}` passes the function to React so it can be called
+when the click happens. `handleClick()` calls the function immediately
+during rendering.
+
+### Q9. Can a component return multiple elements?
+
+Yes. But all top-level elements must be grouped under one parent element
+or a Fragment.
+
+### Q10. What happens to JSX before the browser executes the app?
+
+The project's build tooling transforms JSX into JavaScript. The browser
+executes the resulting JavaScript, not JSX syntax directly.
+
+------------------------------------------------------------------------
+
+# 14. Common beginner mistakes
+
+  -----------------------------------------------------------------------
+  Mistake                             Correct way
+  ----------------------------------- -----------------------------------
+  Writing `class` in JSX              Use `className`
+
+  Writing `onclick`                   Use `onClick`
+
+  Writing `onClick={handleClick()}`   Use `onClick={handleClick}`
+  for a normal click handler          
+
+  Returning two separate top-level    Use a parent or Fragment
+  elements                            
+
+  Putting an `if` statement directly  Use a ternary or calculate the
+  inside JSX braces                   value before `return`
+
+  Thinking JSX is HTML                JSX is a JavaScript syntax
+                                      extension
+
+  Thinking the browser directly       Build tooling transforms it first
+  understands JSX                     
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 15. Quick revision --- explain JSX to yourself
+
+Try to explain these points in your own words:
+
+1.  **What?** JSX lets us write UI in an HTML-like way inside
+    JavaScript.
+2.  **Why?** It makes UI code easier to read.
+3.  **Is it HTML?** No, it is a JavaScript syntax extension.
+4.  **How does it run?** Build tools transform it into JavaScript.
+5.  **How do we use variables?** We put JavaScript expressions inside
+    `{}`.
+6.  **Why one parent?** A component's returned JSX needs one top-level
+    element.
+7.  **What is a Fragment?** It groups elements without adding an extra
+    DOM element.
+8.  **How do events work?** We pass a function, such as
+    `onClick={handleClick}`.
+
+------------------------------------------------------------------------
+
+# 16. Mini interview practice
+
+Try answering without looking at the notes.
+
+### Beginner questions
+
+1.  What is JSX?
+2.  Is JSX the same as HTML?
+3.  Why do React developers use JSX?
+4.  Is JSX compulsory?
+5.  What do curly braces mean in JSX?
+
+### Understanding questions
+
+6.  What is the difference between an expression and a statement?
+7.  Why can't we directly put an `if` statement inside JSX braces?
+8.  Why does a component need one top-level returned element?
+9.  What is a Fragment?
+10. What happens to JSX before the browser runs the application?
+
+### Tricky interview questions
+
+11. What is the difference between `onClick={handleClick}` and
+    `onClick={handleClick()}`?
+12. How would you pass an argument to a click handler?
+13. Why do we use `className` instead of `class`?
+14. Can React be used without JSX?
+15. Does JSX itself directly update the browser DOM?
+
+------------------------------------------------------------------------
+
+# 17. One complete example --- use everything together
+
+Let's build a tiny profile card.
+
+``` jsx
+function App() {
+  const user = {
+    name: "Manav",
+    college: "IIIT Bhubaneswar",
+    age: 21
+  };
+
+  const isLoggedIn = true;
+
+  function handleClick() {
+    console.log("Profile button clicked!");
+  }
+
+  return (
+    <div className="profile-card">
+      <h1>Hello, {user.name}!</h1>
+
+      <p>College: {user.college}</p>
+      <p>Age: {user.age}</p>
+
+      <h2>
+        {isLoggedIn ? "Welcome back!" : "Please log in"}
+      </h2>
+
+      <button onClick={handleClick}>
+        View Profile
+      </button>
+    </div>
+  );
+}
+```
+
+### Line-by-line understanding
+
+  -----------------------------------------------------------------------
+  Code                                Meaning
+  ----------------------------------- -----------------------------------
+  `function App()`                    We are defining a React component
+
+  `const user = {...}`                We are storing user information in
+                                      an object
+
+  `const isLoggedIn = true`           We are storing a boolean value
+
+  `function handleClick()`            We are defining a function for the
+                                      button
+
+  `return (...)`                      We are returning the UI
+
+  `className="profile-card"`          We are assigning a CSS class
+
+  `{user.name}`                       We are inserting a JavaScript value
+
+  `{isLoggedIn ? ... : ...}`          We are choosing text based on a
+                                      condition
+
+  `onClick={handleClick}`             We are passing a function to run on
+                                      click
+  -----------------------------------------------------------------------
+
+### What did we learn?
+
+We used JSX, JavaScript variables, objects, curly braces, a ternary
+operator, JSX attributes, event handling, and a functional component.
+
+This is why understanding JSX properly is important. You will use these
+ideas throughout React.
+
+------------------------------------------------------------------------
+
+# 18. Final interview-ready answer
+
+If an interviewer asks **"Explain JSX in React"**, you can say:
+
+"JSX is a syntax extension for JavaScript that allows us to describe UI
+using HTML-like syntax inside JavaScript. It makes React code easier to
+read and maintain. We can also embed JavaScript expressions inside JSX
+using curly braces. JSX is not directly understood by the browser; the
+project's build tooling transforms it into JavaScript before execution.
+JSX is optional, but it is commonly used because it makes UI code more
+readable."
+
+------------------------------------------------------------------------
+
+# 19. Revision Cheat Sheet
+
+> **Use this section for a 2--5 minute revision before an interview or
+> practice session.**
+
+## A. JSX in one line
+
+**JSX = JavaScript syntax extension + HTML-like UI syntax.**
+
+It helps us describe React UI in a readable way.
+
+## B. The important rules
+
+  Concept                  Remember
+  ------------------------ ------------------------------------------------------
+  JSX                      HTML-like syntax written inside JavaScript
+  JSX vs HTML              JSX is not HTML
+  JSX transformation       Build tools transform JSX into JavaScript
+  JavaScript inside JSX    Use `{}`
+  What goes inside `{}`?   JavaScript expressions that produce values
+  `if` inside JSX          Use a ternary or write `if` before `return`
+  One root element         Group top-level JSX under one parent
+  Fragment                 `<>...</>` groups elements without an extra DOM node
+  CSS class                Use `className`, not `class`
+  Event names              Use camelCase, e.g. `onClick`
+  Event handler            Pass a function: `onClick={handleClick}`
+  Function with argument   Use `onClick={() => handleClick("Manav")}`
+  JSX mandatory?           No; `React.createElement` can be used instead
+
+## C. Must-know code patterns
+
+**1. Basic JSX**
+
+``` jsx
+const element = <h1>Hello World</h1>;
+```
+
+**2. JavaScript variable**
+
+``` jsx
+const name = "Manav";
+<h1>Hello {name}</h1>
+```
+
+**3. JavaScript expression**
+
+``` jsx
+<h1>{2 + 2}</h1>
+```
+
+**4. Ternary condition**
+
+``` jsx
+<h1>{isLoggedIn ? "Welcome" : "Login"}</h1>
+```
+
+**5. One parent element**
+
+``` jsx
+return (
+  <div>
+    <h1>Hello</h1>
+    <p>Welcome</p>
+  </div>
+);
+```
+
+**6. Fragment**
+
+``` jsx
+return (
+  <>
+    <h1>Hello</h1>
+    <p>Welcome</p>
+  </>
+);
+```
+
+**7. JSX attribute**
+
+``` jsx
+<div className="card">Hello</div>
+```
+
+**8. Event handler**
+
+``` jsx
+function handleClick() {
+  console.log("Clicked!");
+}
+
+<button onClick={handleClick}>Click</button>
+```
+
+**9. Event handler with argument**
+
+``` jsx
+<button onClick={() => handleClick("Manav")}>
+  Click
+</button>
+```
+
+## D. The three most important interview traps
+
+  -----------------------------------------------------------------------
+  Trap                                Correct understanding
+  ----------------------------------- -----------------------------------
+  "JSX is HTML"                       No, it is a JavaScript syntax
+                                      extension
+
+  "The browser understands JSX"       No, build tooling transforms it
+                                      first
+
+  "`onClick={handleClick()}` is the   No, pass the function with
+  normal way"                         `onClick={handleClick}`
+  -----------------------------------------------------------------------
+
+## E. Remember the flow
+
+``` text
+Write JSX
+   ↓
+JSX transformation
+   ↓
+JavaScript
+   ↓
+React rendering
+   ↓
+UI in the browser
+```
+
+## F. Five questions to test yourself
+
+1.  Explain JSX in two sentences.
+2.  Why do we use `{}`?
+3.  Difference between `handleClick` and `handleClick()`?
+4.  Why do we need a parent element or Fragment?
+5.  How does JSX reach the browser?
+
+If you can answer these five and write the code patterns above without
+looking, you have a good foundation in JSX.
+
+------------------------------------------------------------------------
+
+# 20. Next lesson --- React Components
+
+Now that JSX is clear, the next step is **Components**. We will learn
+one topic at a time:
+
+1.  What is a component?
+2.  Functional components
+3.  How React renders components
+4.  Why components are reusable
+5.  Props
+6.  How props flow from parent to child
+7.  The `children` prop
+8.  Component composition
+
+> **Study tip:** Don't rush. First explain JSX in your own words, then
+> write the profile-card example without copying it. Move to Components
+> when you can do both comfortably.
